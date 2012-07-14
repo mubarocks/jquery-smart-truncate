@@ -51,17 +51,22 @@
         }
       },
       shortenNode: function(node) {
-        var childNode = node.lastChild;
-        if(typeof(childNode) === "undefined") {
-          return;
-        }
+        var self = this, childNode = node.lastChild, childNodeText;
+        if(typeof(childNode) === "undefined") return;
 
-        var childNodeText = document.all ? childNode.toString() : childNode.textContent;
-        if(childNodeText.length == 0) {
+        childNodeText = self.getTextContent(childNode);
+        if(childNodeText.length === 0) {
           node.removeChild(childNode);
         } else {
           node.removeChild(childNode);
           node.appendChild(document.createTextNode(childNodeText.substr(0, childNodeText.lastIndexOf(" "))));
+        }
+      },
+      getTextContent: function(node) {
+        if(typeof(node.textContent) === "undefined") {
+          return node.toString();
+        } else {
+          return node.textContent;
         }
       }
     }
